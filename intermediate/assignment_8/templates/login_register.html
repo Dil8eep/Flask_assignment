@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication</title>
+</head>
+<body>
+    <h2>User Authentication</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{% if current_user.is_authenticated %}{{ url_for('logout') }}{% else %}{{ url_for('login_or_register') }}{% endif %}">
+
+        {% if not current_user.is_authenticated %}
+            <h3>Login</h3>
+            <label for="name">Username:</label>
+            <input type="text" name="name" required>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+        {% else %}
+            <h3>Welcome, {{ current_user.username }}!</h3>
+        {% endif %}
+
+        <button type="submit">{% if current_user.is_authenticated %}Logout{% else %}Submit{% endif %}</button>
+    </form>
+
+    <p>{% if not current_user.is_authenticated %}Don't have an account? <a href="{{ url_for('login_or_register') }}">Register here</a>{% endif %}</p>
+</body>
+</html>

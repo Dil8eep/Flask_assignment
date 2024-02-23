@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Data Updates</title>
+</head>
+<body>
+    <h1>Real-Time Data Updates</h1>
+
+    <!-- Your HTML content goes here -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            // Handle the form submission or any other event to trigger data updates
+            // For example, you can use a button click event
+            document.getElementById('updateButton').addEventListener('click', function() {
+                var newData = // Get your updated data here
+                socket.emit('update_data', newData);
+            });
+
+            // Listen for updated data from the server
+            socket.on('updated_data', function(data) {
+                // Update your HTML content with the received data
+                console.log('Received updated data:', data);
+            });
+        });
+    </script>
+</body>
+</html>
